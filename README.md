@@ -14,33 +14,54 @@ An intelligent Slack bot powered by Anthropic Claude that helps teams manage the
 ## Prerequisites
 
 - Python 3.8 or higher
+- [uv](https://github.com/astral-sh/uv) - Fast Python package installer
 - A Slack workspace with admin permissions
 - Jira account with API access
 - Anthropic API key (Claude)
 
 ## Installation
 
-### 1. Clone the Repository
+### 1. Install uv (if not already installed)
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+### 2. Clone the Repository
 
 ```bash
 git clone <repository-url>
 cd elom_nusk
 ```
 
-### 2. Set Up Virtual Environment
+### 3. Run Automated Setup
 
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+./setup.sh
 ```
 
-### 3. Install Dependencies
+This will:
+- Verify uv installation
+- Create a virtual environment
+- Install all dependencies
+- Create `.env` from template
+
+### 4. Manual Installation (Alternative)
+
+If you prefer manual setup:
 
 ```bash
-pip install -r requirements.txt
+# Create virtual environment with uv
+uv venv
+
+# Install dependencies
+uv pip install -r requirements.txt
+
+# Create .env file
+cp .env.example .env
 ```
 
-### 4. Configure Slack App
+### 5. Configure Slack App
 
 1. Go to [Slack API](https://api.slack.com/apps) and create a new app
 2. Choose "From scratch" and give it a name (e.g., "EloM Nusk")
@@ -127,7 +148,16 @@ DEFAULT_STANDUP_CHANNEL=#daily-standup
 
 ### Starting the Bot
 
+**Using uv (recommended):**
+
 ```bash
+uv run main.py
+```
+
+**Or activate the virtual environment first:**
+
+```bash
+source .venv/bin/activate
 python main.py
 ```
 

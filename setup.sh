@@ -1,11 +1,26 @@
 #!/bin/bash
 
 # EloM Nusk Setup Script
-# This script helps you set up the AI Scrum Master bot
+# This script helps you set up the AI Scrum Master bot using uv
 
 echo "=========================================="
 echo "EloM Nusk - AI Scrum Master Setup"
 echo "=========================================="
+echo ""
+
+# Check if uv is installed
+echo "Checking for uv..."
+if ! command -v uv &> /dev/null; then
+    echo "uv is not installed."
+    echo ""
+    echo "Installing uv..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    echo ""
+    echo "Please run this script again after uv installation completes."
+    exit 0
+fi
+
+echo "uv found: $(uv --version)"
 echo ""
 
 # Check Python version
@@ -22,25 +37,19 @@ fi
 echo "Python version OK: $python_version"
 echo ""
 
-# Create virtual environment
-echo "Creating virtual environment..."
-if [ ! -d "venv" ]; then
-    python3 -m venv venv
+# Create virtual environment using uv
+echo "Creating virtual environment with uv..."
+if [ ! -d ".venv" ]; then
+    uv venv
     echo "Virtual environment created"
 else
     echo "Virtual environment already exists"
 fi
 echo ""
 
-# Activate virtual environment
-echo "Activating virtual environment..."
-source venv/bin/activate
-echo ""
-
-# Install dependencies
-echo "Installing dependencies..."
-pip install --upgrade pip
-pip install -r requirements.txt
+# Install dependencies using uv
+echo "Installing dependencies with uv..."
+uv pip install -r requirements.txt
 echo "Dependencies installed"
 echo ""
 
@@ -74,8 +83,9 @@ echo "=========================================="
 echo ""
 echo "Next steps:"
 echo "1. Edit .env file with your credentials"
-echo "2. Run: source venv/bin/activate"
-echo "3. Run: python main.py"
+echo "2. Run the bot using one of these methods:"
+echo "   - With uv: uv run main.py"
+echo "   - Or activate venv: source .venv/bin/activate && python main.py"
 echo ""
 echo "For detailed instructions, see README.md"
 echo ""
